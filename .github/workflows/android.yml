@@ -100,18 +100,18 @@ jobs:
       #        run: ./gradlew clean assembleRelease
 
       # keystore
-#      - run : echo $healthport_kiosk | base64 -d > kiosk.keystore
-#      - name : Build with gradle
-#        run : sudo ./gradlew assembleDebug
+      - run : echo $healthport_kiosk | base64 -d > kiosk.keystore
+      - name : Build with gradle
+        run : sudo ./gradlew assembleDebug
 
       # debug apk
-      # - name: Build Debug APK
-      #   run: bash ./gradlew assembleDebug --stacktrace
-      # - name: Upload APK ( Debug )
-      #   uses: actions/upload-artifact@v1
-      #   with:
-      #     name: apk
-      #     path: app/build/outputs/apk/debug/app-debug.apk
+#       - name: Build Debug APK
+#         run: bash ./gradlew assembleDebug
+#       - name: Upload APK ( Debug )
+#         uses: actions/upload-artifact@v1
+#         with:
+#           name: apk
+#           path: app/build/outputs/apk/debug/app-debug.apk
 
       # release apk
       # - name: Download APK from build
