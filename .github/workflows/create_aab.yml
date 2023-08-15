@@ -52,7 +52,7 @@ jobs:
 
       # 권한 추가
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew runner.os }}-gradle-
+        run: chmod +x gradlew
 
       # build
       - name: Build..

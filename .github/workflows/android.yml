@@ -1,12 +1,12 @@
-#name: "CI&CD"
-#
-#on:
-#  #  workflow_dispatch:
-#  push:
-#    branches: [ master, feat/ci-cd ]
+name: "CI&CD"
+
+on:
+  #  workflow_dispatch:
+  push:
+    branches: [ feat/ci-cd ]
 #  pull_request:
 #    branches: [ master, feat/ci-cd ]
-#
+
 #jobs:
 #  info:
 #    name: 작업 정보
