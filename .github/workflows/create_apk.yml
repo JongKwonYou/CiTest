@@ -1,10 +1,11 @@
 name: "Create APK file"
 
+## test
 on:
   push:
-#    branches: [ master, feat/ci-cd ]
-    tag :
-      - 'v*' # i.e. v1.0.1
+    branches: [ master, feat/ci-cd ]
+#    tag :
+#      - 'v*' # i.e. v1.0.1
   pull_request:
     branches: [ master, feat/ci-cd ]
 
