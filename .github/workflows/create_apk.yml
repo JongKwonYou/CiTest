@@ -62,12 +62,17 @@ jobs:
       - name: Build Release APK
         id: buildRelease
         run: |
-          bash ./gradlew assembleRelease \
-            -Pandroid.injected.signing.store.file=${{ secrets.SIGNING_KEYSTORE_FILE }} \
-            -Pandroid.injected.signing.store.password=${{ secrets.STORE_PASSWORD }} \
-            -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
-            -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }} \
-            --stacktrace
+          bash ./gradlew assembleRelease --stacktrace
+
+      - name: Sign APK
+        id: sign
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEYSTORE_FILE }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
 
       - name: Upload APK
         id: uploadArtifact
