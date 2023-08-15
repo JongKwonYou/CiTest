@@ -2,9 +2,9 @@ name: "Create AAB file"
 
 on:
   push:
-    branches: [ feat/ci-cd ]
-#  pull_request:
-#    branches: [ master, feat/ci-cd ]
+    branches: [ master, feat/ci-cd ]
+  pull_request:
+    branches: [ master, feat/ci-cd ]
 
 jobs:
   info:
@@ -55,27 +55,23 @@ jobs:
         run: chmod +x gradlew
 
       # build
-      - name: Build..
-        id: build
-        run: ./gradlew build
+#      - name: Build..
+#        id: build
+#        run: ./gradlew build
 
-      - name: Build Release AAB
+      - name: Build Release APK
         id: buildRelease
-        run: ./gradlew bundleRelease
+        run: |
+          bash ./gradlew assembleRelease \
+            -Pandroid.injected.signing.store.file=${{ secrets.SIGNING_KEYSTORE_FILE }} \
+            -Pandroid.injected.signing.store.password=${{ secrets.STORE_PASSWORD }} \
+            -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
+            -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }} \
+            --stacktrace
 
-      - name: Sign AAB
-        id: sign
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEYSTORE_FILE }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-
-      - name: Upload AAB
+      - name: Upload APK
         id: uploadArtifact
         uses: actions/upload-artifact@v1
         with:
           name: app
-          path: app/build/outputs/bundle/release/app-release.aab
+          path: app/build/outputs/bundle/release/app-release.apk
