@@ -1,4 +1,4 @@
-name: "Create AAB file"
+name: "Create APK file"
 
 on:
   push:
@@ -79,4 +79,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: app
-          path: ./app/build/outputs/apk/release/app-release.apk
+          path: app/build/outputs/apk/release/app-release.apk

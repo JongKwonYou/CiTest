@@ -7,17 +7,17 @@ on:
 #  pull_request:
 #    branches: [ master, feat/ci-cd ]
 
-#jobs:
-#  info:
-#    name: 작업 정보
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: 작업 정보
-#        run: |
-#          echo "🎉🎉🎉🎉🎉🎉🎉"
-#          echo "repo : ${{ github.repository }}"
-#          echo "branch : ${{ github.ref }}"
-#          echo "event : << ${{ github.event_name }} >>"
+jobs:
+  info:
+    name: 작업 정보
+    runs-on: ubuntu-latest
+    steps:
+      - name: 작업 정보
+        run: |
+          echo "🎉🎉🎉🎉🎉🎉🎉"
+          echo "repo : ${{ github.repository }}"
+          echo "branch : ${{ github.ref }}"
+          echo "event : << ${{ github.event_name }} >>"
 #  build:
 #    runs-on: ubuntu-latest
 #    steps:
