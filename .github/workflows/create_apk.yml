@@ -83,11 +83,24 @@ jobs:
           name: app
           path: app/build/outputs/apk/release/app-release-unsigned-signed.apk
 
-      # Github release 생성
-      - name: Release 생성
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.CITEST_GITHUB_TOKEN }}
+      - name: Github Release 최신 tag 받아오기
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Github release 생성
+#      - name: Release 생성
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.CITEST_GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ github.ref }}
+#          release_name: Release ${{ github.ref }}
+
+      - name: GitHub project release 업데이트
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
