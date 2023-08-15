@@ -1,0 +1,81 @@
+name: "Create AAB file"
+
+on:
+  push:
+    branches: [ master, feat/ci-cd ]
+  pull-request:
+    branches: [ master, feat/ci-cd ]
+
+jobs:
+  info:
+    name: 작업 정보
+    runs-on: ubuntu-latest
+    steps:
+      - name: 작업 정보
+        run: |
+          echo "🎉🎉🎉🎉🎉🎉🎉"
+          echo "repo : ${{ github.repository }}"
+          echo "branch : ${{ github.ref }}"
+          echo "event : << ${{ github.event_name }} >>"
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      # JDK Settings
+      #      - name: Setup JDK1.8...
+      #        uses: actions/setup-java@v3
+      #        with:
+      #          java-version: 1.8
+      #          check-latest: true
+      - name: Setup JDK11...
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+          check-latest: true
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      # cache ( gradle 빌드 시간 단축 )
+      - name: cache gradle
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      # 권한 추가
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew runner.os }}-gradle-
+
+      # build
+      - name: Build..
+        id: build
+        run: ./gradlew build
+
+      - name: Build Release AAB
+        id: buildRelease
+        run: ./gradlew bundleRelease
+
+      - name: Sign AAB
+        id: sign
+        uses: r0adkll/sign-android-release@v1
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+          alias: ${{ secrets.ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Upload AAB
+        id: uploadArtifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: app
+          path: app/build/outputs/bundle/release/app-release.aab
