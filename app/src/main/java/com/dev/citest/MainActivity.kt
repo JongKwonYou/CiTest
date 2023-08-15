@@ -11,9 +11,11 @@ import android.view.Menu
 import android.view.MenuItem
 import com.dev.citest.databinding.ActivityMainBinding
 
+// test
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+//    private lateinit var binding: ActivityMainBinding
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

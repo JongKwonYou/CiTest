@@ -1,4 +1,4 @@
-name: "Create APK file"
+name: "Create APK file And Release"
 
 ## test
 on:
