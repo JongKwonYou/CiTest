@@ -3,7 +3,7 @@ name: "Create AAB file"
 on:
   push:
     branches: [ master, feat/ci-cd ]
-  pull-request:
+  pull_request:
     branches: [ master, feat/ci-cd ]
 
 jobs:
